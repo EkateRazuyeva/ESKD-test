@@ -1,5 +1,5 @@
 import {useForm} from 'react-hook-form';
-import {ErrorMessage} from '../components/ErrorMessage.tsx';
+import {ErrorMessage} from '../components';
 import clsx from 'clsx';
 
 type FormData = {
@@ -61,7 +61,7 @@ export const FormPage = () => {
                     <input
                         {...register('phone', {
                             required: 'Телефон обязателен',
-                            pattern: {value: /^(\+375|80)\d{7,9}$/, message: 'Неверный формат телефона'}
+                            pattern: {value: /^(\+375|80)\d{7,9}$/, message: 'Неверный формат телефона (+375 или 80)'}
                         })}
                         placeholder="Телефон"
                         className={clsx(
@@ -90,6 +90,7 @@ export const FormPage = () => {
                     disabled={isSubmitting}
                     className="w-full bg-violet-500 hover:bg-violet-600 text-white py-2 rounded-lg disabled:opacity-50 transition"
                 >
+                    Отправить
                 </button>
             </form>
         </div>
