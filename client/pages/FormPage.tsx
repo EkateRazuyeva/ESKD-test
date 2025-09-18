@@ -1,12 +1,5 @@
 import {useForm} from 'react-hook-form';
-import {ErrorMessage} from '../components';
-import clsx from 'clsx';
-
-type FormData = {
-    name: string;
-    phone: string;
-    message: string;
-};
+import {type FormData, FormField} from '../components/FormField.tsx';
 
 export const FormPage = () => {
     const {
@@ -34,7 +27,6 @@ export const FormPage = () => {
         }
     };
 
-    const baseClass = 'w-full p-2 border-2 rounded-lg'
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <form
@@ -43,48 +35,28 @@ export const FormPage = () => {
             >
                 <h2 className="text-xl font-semibold text-center mb-7">Оставьте сообщение</h2>
 
-                <div className="mb-5 relative">
-                    <input
-                        {...register('name', {
-                            required: 'Имя обязательно',
-                            minLength: {value: 2, message: 'Минимум 2 символа'}
-                        })}
-                        placeholder="Имя"
-                        className={clsx(
-                            baseClass,
-                            errors.name ? 'border-red-500' : 'border-gray-800'
-                        )}
-                    />
-                    {errors.name && <ErrorMessage error={errors.name.message}/>}
-                </div>
-                <div className="mb-5 relative">
-                    <input
-                        {...register('phone', {
-                            required: 'Телефон обязателен',
-                            pattern: {value: /^(\+375|80)\d{7,9}$/, message: 'Неверный формат телефона (+375 или 80)'}
-                        })}
-                        placeholder="Телефон"
-                        className={clsx(
-                            baseClass,
-                            errors.phone ? 'border-red-500' : 'border-gray-800'
-                        )}
-                    />
-                    {errors.phone && <ErrorMessage error={errors.phone.message}/>}
-                </div>
-                <div className="mb-5 relative">
-                <textarea
-                    {...register('message', {
-                        required: 'Сообщение обязательно',
-                        minLength: {value: 2, message: 'Минимум 2 символа'}
-                    })}
-                    placeholder="Сообщение"
-                    className={clsx(
-                        baseClass,
-                        errors.message ? 'border-red-500' : 'border-gray-800'
-                    )}
+                <FormField name={'name'} register={register} registerOptions={{
+                    required: 'Имя обязательно',
+                    minLength: {value: 2, message: 'Минимум 2 символа'}
+                }}
+                           placeholder={'Имя'}
+                           errors={errors}
                 />
-                    {errors.message && <ErrorMessage error={errors.message.message}/>}
-                </div>
+                <FormField name={'phone'} register={register} registerOptions={{
+                    required: 'Телефон обязателен',
+                    pattern: {value: /^(\+375|80)\d{7,9}$/,
+                        message: 'Неверный формат телефона (+375 или 80)'}
+                }}
+                           placeholder={'Телефон'}
+                           errors={errors}
+                />
+                <FormField textarea name={'message'} register={register} registerOptions={{
+                    required: 'Сообщение обязательно',
+                    minLength: {value: 2, message: 'Минимум 2 символа'}
+                }}
+                           placeholder={'Сообщение'}
+                           errors={errors}
+                />
                 <button
                     type="submit"
                     disabled={isSubmitting}
